@@ -6,8 +6,9 @@
 
     <script>
         mapboxgl.accessToken = {{ config.MAPBOX_ACCESS_TOKEN |tojson }};
-        const DEFAULT_CENTER_LONG = {{ config.DEFAULT_CENTER_LONG }};
-        const DEFAULT_CENTER_LAT = {{ config.DEFAULT_CENTER_LAT }};
+        const DEFAULT_CENTER_LONG = {{ config.DEFAULT_CENTER_LONG |tojson }};
+        const DEFAULT_CENTER_LAT = {{ config.DEFAULT_CENTER_LAT |tojson }};
+        const INITAL_FEATURES = {{ features |tojson }}
     </script>
 
     <script src="{{ url_for('static', filename='map.js') }}"></script>
