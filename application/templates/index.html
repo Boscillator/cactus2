@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+{% endblock %}
 {% block body %}
-    <h1>Hello World</h1>
+    <div class="small-row">Selection Box Goes Here</div>
+    <div id="map" class="fill-row"></div>
+    <div class="small-row">Time scroll goes here</div>
 {% endblock %}
