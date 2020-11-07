@@ -1,15 +1,19 @@
+import json
 from geoalchemy2.types import Geometry
+from sqlalchemy import text
 from application import db
+
 
 class Count(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     timestamp = db.Column(db.DateTime, nullable=False)
     devices = db.Column(db.Integer)
     router_id = db.Column(db.Integer, db.ForeignKey('router.id'))
-    router = db.relationship('Router')
+    router = db.relationship('Router', backref=db.backref('counts', lazy=True))
 
     def __repr__(self):
         return f'{self.router}@{self.timestamp}={self.devices}'
+
 
 class Router(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -21,9 +25,39 @@ class Router(db.Model):
     def __repr__(self):
         return self.name
 
+
 class Campus(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(120))
+
+    def current_counts(self):
+        query = text("""        
+        SELECT count.timestamp, r.name, st_asgeojson(r.geometry), count.devices
+        FROM count
+                 JOIN (SELECT router_id, MAX(timestamp) AS ts FROM count GROUP BY router_id) t1
+                      ON count.router_id = t1.router_id AND count.timestamp = t1.ts
+        JOIN router r on count.router_id = r.id
+        WHERE campus_id = :cid
+        """)
+
+        result = db.session.execute(query, {'cid': self.id})
+        return list(result)
+
+    def current_counts_as_geojson(self):
+        results = self.current_counts()
+        return {
+            'type': 'FeatureCollection',
+            'features': [
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'name': row['name'],
+                        'devices': row['devices']
+                    },
+                    'geometry': json.loads(row['st_asgeojson'])
+                } for row in results
+            ]
+        }
 
     def __repr__(self):
         return self.name
