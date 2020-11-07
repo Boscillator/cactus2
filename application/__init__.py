@@ -6,6 +6,7 @@ from flask_admin import Admin
 # initialize app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'insecure key'
+app.config['TITLE'] = 'CACTUS 2'
 
 # initialize database
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
