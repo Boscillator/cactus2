@@ -25,5 +25,11 @@
         </select>
     </form>
     <div id="map" class="fill-row"></div>
-    <div class="small-row">Time scroll goes here</div>
+    <div class="small-row">
+        <div class="time-controls-container">
+            <button>&lt;</button>
+            <input type="range" min="-30" max="0" value="0" id="time-step-selector" />
+            <button>&gt;</button>
+        </div>
+    </div>
 {% endblock %}
