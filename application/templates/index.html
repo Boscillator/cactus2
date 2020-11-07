@@ -3,6 +3,14 @@
     {{ super() }}
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script>
+    mapboxgl.accessToken = {{ config.MAPBOX_ACCESS_TOKEN |tojson }};
+    const DEFAULT_CENTER_LONG = {{ config.DEFAULT_CENTER_LONG }};
+    const DEFAULT_CENTER_LAT = {{ config.DEFAULT_CENTER_LAT }};
+    </script>
+
+    <script src="{{ url_for('static', filename='map.js') }}"></script>
 {% endblock %}
 {% block body %}
     <div class="small-row">Selection Box Goes Here</div>

@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Avro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 
 :root {
     --main-bg-color: #404040;
     --accent-color: #000000;
     --main-text-color: #FFFFFF;
-    --font-stack:'Avro', sans-serif;
+    --font-stack:'Roboto Condensed', sans-serif;
     --bar-height: 32px;
     --bar-v-padding: 4px;
+    --small-row-height: 64px;
 }
 
 
@@ -41,7 +42,11 @@ main {
 }
 
 .small-row {
-    flex-basis: var(--bar-height);
+    flex-basis: var(--small-row-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .fill-row {
