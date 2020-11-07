@@ -1,6 +1,6 @@
 from flask import jsonify, abort
 from application import app
-from models import Count, Router, Campus
+from application.models import Count, Router, Campus
 import datetime
 
 @app.route('/api/test')
@@ -11,8 +11,11 @@ def test_endpoint():
 def add_count():
     if not request.json:
         abort(400)
-    router_id = request.json['routerID']
+    router_name = request.json['routerID']
+    router_id = Router.query.filter_by(name=router_name).first().id
+    
     devices = request.json['clients']
+    
     timestamp = request.json['timestamp']
     timestamp = datetime.datetime.fromtimestamp(timestamp)
 
