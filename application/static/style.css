@@ -7,9 +7,13 @@
     --font-stack:'Roboto Condensed', sans-serif;
     --bar-height: 32px;
     --bar-v-padding: 4px;
+    --bar-h-padding: 14px;
     --small-row-height: 64px;
 }
 
+.hidden {
+    display: none;
+}
 
 body {
     background-color: var(--main-bg-color);
@@ -25,7 +29,7 @@ nav {
     background-color: var(--accent-color);
     margin: 0;
     height: var(--bar-height);
-    padding: 4px 14px;
+    padding: var(--bar-v-padding) var(--bar-h-padding);
 
     display: flex;
     flex-direction: column;
@@ -47,6 +51,25 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+select {
+    display: block;
+    background-color: var(--accent-color);
+    color: var(--main-text-color);
+    border: none;
+
+    max-width: 300px;
+    min-width: 100px;
+    width: 75%;
+
+    font-size: 18px;
+    font-family: var(--font-stack);
+    padding: 2px var(--bar-v-padding);
+}
+
+select:focus {
+    border-radius: 0;
 }
 
 .fill-row {
