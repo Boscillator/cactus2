@@ -23,4 +23,4 @@ def add_count():
     db.session.add(count)
     db.session.commit()
 
-    return 201
+    return jsonify(success=True)
