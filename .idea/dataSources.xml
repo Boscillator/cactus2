@@ -13,5 +13,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://35.245.161.204:5432/postgres</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="cactus2@757c31c1-3144-4eee-905b-633638896b16.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud" uuid="af09f092-ead1-418d-8b1d-4f8093ee521d">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://757c31c1-3144-4eee-905b-633638896b16.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud:32282/cactus2</jdbc-url>
+    </data-source>
   </component>
 </project>
