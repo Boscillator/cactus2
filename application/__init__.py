@@ -1,7 +1,12 @@
 import os
+import time
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+
+# Force UTC
+os.environ['TZ'] = 'Europe/London'
+time.tzset()
 
 # initialize app
 app = Flask(__name__)

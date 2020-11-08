@@ -20,9 +20,9 @@ function configure_map() {
             'paint': {
                 'fill-color': ['interpolate', ['linear'], ['get', 'devices'],
                     0, '#0a0',
-                    // max_devices / 2, '#ff0',
+                    max_devices / 2, '#ff0',
                     max_devices, '#a00'],
-                'fill-opacity': 0.8
+                'fill-opacity': 0.5
             }
         });
 
