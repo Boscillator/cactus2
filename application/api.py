@@ -96,11 +96,13 @@ def get_stats():
             trend = 'increasing'
         else:
             trend = 'slightly increasing'
-    else:
+    elif np.sign(trend_val) < 0:
         if np.abs(trend_val) > std:
             trend = 'decreasing'
         else:
             trend = 'slightly decreasing'
+    else:
+        trend = 'no change'
     
 
     res = {'num': last_count, 'state': state, 'trend': trend}
