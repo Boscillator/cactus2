@@ -89,10 +89,20 @@ $(document).ready(function () {
         var newTimestamp = Math.floor((Date.now() / 1000)) + (sliderValue * 60);
 
         console.log(new Date(newTimestamp * 1000).toUTCString())
+        // map.getSource('routers').setData({
+        //     'type': 'FeatureCollection',
+        //     'features': []
+        // });
+
+        var mapElement = $("#map");
+        mapElement.addClass("blur");
+        mapElement.removeClass("deblur");
 
         $.getJSON(`/api/campus/${currentCampus}?t=${newTimestamp}`, function (data) {
             console.log(data);
             map.getSource('routers').setData(data);
+            mapElement.removeClass("blur");
+            mapElement.addClass("deblur");
         });
     }
 

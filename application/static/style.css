@@ -4,11 +4,13 @@
     --main-bg-color: #404040;
     --accent-color: #000000;
     --main-text-color: #FFFFFF;
-    --font-stack:'Roboto Condensed', sans-serif;
+    --font-stack: 'Roboto Condensed', sans-serif;
     --bar-height: 32px;
     --bar-v-padding: 4px;
     --bar-h-padding: 14px;
     --small-row-height: 64px;
+    --blur-amount: 4px;
+    --blur-speed: 200ms;
 }
 
 .hidden {
@@ -42,7 +44,7 @@ main {
     padding: 0;
     margin: 0;
     flex-direction: column;
-    height: calc(100vh - var(--bar-height) - 2*var(--bar-v-padding));
+    height: calc(100vh - var(--bar-height) - 2 * var(--bar-v-padding));
 }
 
 .small-row {
@@ -127,4 +129,34 @@ select:focus {
 
 #time-step-selector:focus {
     outline-width: 0;
+}
+
+@keyframes slow-blur {
+    from {
+        filter: blur(0px);
+    }
+    to {
+        filter: blur(var(--blur-amount));
+    }
+}
+
+@keyframes slow-deblur {
+    from {
+        filter: blur(var(--blur-amount));
+    }
+    to {
+        filter: blur(0px);
+    }
+}
+
+.blur {
+    filter: blur(var(--blur-amount));
+    animation-name: slow-blur;
+    animation-duration: var(--blur-speed);
+}
+
+.deblur {
+    filter: blur(0px);
+    animation-name: slow-deblur;
+    animation-duration: var(--blur-speed);
 }
