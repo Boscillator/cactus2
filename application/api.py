@@ -15,11 +15,12 @@ def get_counts(campus_id):
     try:
         timestamp = int(request.args['t'])
         time = datetime.datetime.fromtimestamp(timestamp)
+        print(time)
     except ValueError:
         abort(400)
         return
 
-    return campus.counts_as_geojson_at_time(time)
+    return jsonify(campus.counts_as_geojson_at_time(time))
 
 
 @app.route('/api/count', methods=['POST'])

@@ -29,7 +29,7 @@ function configure_map() {
         var popup = new mapboxgl.Popup({
             closeButton: false,
             closeOnClick: false,
-            offset: [30,0]
+            offset: [30, 0]
         });
         map.on('mousemove', 'routers', function (e) {
             map.getCanvas().style.cursor = 'pointer';
@@ -51,16 +51,62 @@ function configure_map() {
             popup.remove();
         });
     });
+
+    return map;
+}
+
+function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
 }
 
 $(document).ready(function () {
     // Configure the map
-    configure_map();
+    var map = configure_map();
 
 
     // Setup auto-submit for campus form
-    $("#campus-select").change(function () {
+    var campusSelect = $("#campus-select");
+    campusSelect.change(function () {
         console.log("change");
         $("#campus-form").submit();
+    });
+
+
+    var timeSlider = $("#time-step-selector");
+
+    function onSliderChange() {
+        var currentCampus = campusSelect.val();
+        var sliderValue = parseInt(timeSlider.val());
+        var newTimestamp = Math.floor((Date.now() / 1000)) + (sliderValue * 60);
+
+        console.log(new Date(newTimestamp * 1000).toUTCString())
+
+        $.getJSON(`/api/campus/${currentCampus}?t=${newTimestamp}`, function (data) {
+            console.log(data);
+            map.getSource('routers').setData(data);
+        });
+    }
+
+    $("#btn-decrease-time").click(function () {
+        timeSlider.val(Math.max(-30, parseInt(timeSlider.val()) - 1));
+        onSliderChange();
+    });
+
+    $("#btn-increase-time").click(function () {
+        timeSlider.val(Math.min(0, parseInt(timeSlider.val()) + 1));
+        onSliderChange();
+    });
+
+    timeSlider.change(function () {
+        onSliderChange();
     });
 });
