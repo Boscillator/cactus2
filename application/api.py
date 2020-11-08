@@ -87,9 +87,9 @@ def get_stats():
             predictions.append(yhat)
             train.append(yhat)
 
-        trend_val = predictions[-1] - last_count
+        trend_val = int(predictions[-1] - last_count)
     except:
-        trend_val = past_counts[-1] - np.mean(past_counts)
+        trend_val = int(past_counts[-1] - np.mean(past_counts))
 
     if np.sign(trend_val) > 0:
         if trend_val > std:
