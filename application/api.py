@@ -17,7 +17,7 @@ def get_counts(campus_id):
     campus = Campus.query.filter_by(id=campus_id).first_or_404()
     try:
         timestamp = int(request.args['t'])
-        time = datetime.datetime.fromtimestamp(timestamp)
+        time = datetime.fromtimestamp(timestamp)
         print(time)
     except ValueError:
         abort(400)
