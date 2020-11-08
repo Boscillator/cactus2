@@ -4,7 +4,7 @@ from application.models import Count, Router, Campus
 from datetime import datetime, timedelta
 import time
 import numpy as np
-from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.forecasting.theta import ThetaModel
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -75,15 +75,15 @@ def get_stats():
         state = 'low'
 
     # Predict upcoming trend
-    try: 
-        train = list(np.copy(past_counts))
-    
+    train = list(np.copy(past_counts))
+
+    try:
         predictions = []
-        for i in range(1):
-            model = ARIMA(train, order=(4,1,1))
+        for i in range(3):
+            model = ThetaModel(np.array(train), period=10)
             model_fit = model.fit(disp=0)
             output = model_fit.forecast()
-            yhat = output[0][0]
+            yhat = list(output)[0]
             predictions.append(yhat)
             train.append(yhat)
 
