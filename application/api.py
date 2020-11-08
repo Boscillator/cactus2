@@ -4,7 +4,7 @@ from application.models import Count, Router, Campus
 from datetime import datetime, timedelta
 import time
 import numpy as np
-from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.forecasting.theta import ThetaModel
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -80,7 +80,7 @@ def get_stats():
     
         predictions = []
         for i in range(1):
-            model = ARIMA(train, order=(4,1,1))
+            model = ThetaModel(train)
             model_fit = model.fit(disp=0)
             output = model_fit.forecast()
             yhat = output[0][0]
