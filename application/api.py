@@ -75,21 +75,18 @@ def get_stats():
         state = 'low'
 
     # Predict upcoming trend
-    try: 
-        train = list(np.copy(past_counts))
-    
-        predictions = []
-        for i in range(1):
-            model = ThetaModel(train)
-            model_fit = model.fit(disp=0)
-            output = model_fit.forecast()
-            yhat = output[0][0]
-            predictions.append(yhat)
-            train.append(yhat)
+    train = list(np.copy(past_counts))
 
-        trend_val = int(predictions[-1] - last_count)
-    except:
-        trend_val = int(past_counts[-1] - np.mean(past_counts))
+    predictions = []
+    for i in range(1):
+        model = ThetaModel(np.array(train), period=10)
+        model_fit = model.fit(disp=0)
+        output = model_fit.forecast()
+        yhat = list(output)[0]
+        predictions.append(yhat)
+        train.append(yhat)
+
+    trend_val = int(predictions[-1] - last_count)
 
     if np.sign(trend_val) > 0:
         if trend_val > std:
