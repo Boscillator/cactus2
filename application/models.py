@@ -15,6 +15,11 @@ class Count(db.Model):
     def __repr__(self):
         return f'{self.router}@{self.timestamp}={self.devices}'
 
+class RouterAlias(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    alias = db.Column(db.String(120))
+    router_id = db.Column(db.Integer, db.ForeignKey('router.id'), nullable=False)
+    router = db.relationship('Router', backref=db.backref('aliases'))
 
 class Router(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
