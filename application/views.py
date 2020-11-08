@@ -9,7 +9,7 @@ def index():
     campuses = Campus.query.all()
 
     if request.args.get('t') is None:
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
     else:
         try:
             time = datetime.datetime.fromtimestamp(int(request.args.get('t')))
