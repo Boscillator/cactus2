@@ -32,6 +32,8 @@ def add_count():
     if not request.json:
         abort(400)
     
+    print(request.json)
+
     router_name = request.json['routerID']
     router_id = Router.query.filter_by(name=router_name).first().id
 
@@ -51,22 +53,23 @@ def get_stats():
     if not request.json:
         abort(400)
 
+    print(request.json)
+
     router_name = request.json['loc']
 
     router_id = Router.query.filter_by(name=router_name).first().id
-    data = Count.query.filter_by(router_id=router_id).all()
+    data = Count.query.filter_by(router_id=router_id).order_by(Count.timestamp).all()
 
     # Get the last recorded amount of people
     last_count = data[-1].devices
+    current_time = data[-1].timestamp
 
     # Get historical high/medium/low rating
-    current_time = datetime.today()
-    last_month = current_time.replace(day=1) - timedelta(days=1)
-
-    past_counts = np.array([x.devices for x in data if x.timestamp >= last_month])
+    threshold = current_time.replace(day=1) - timedelta(days=1)
+    past_counts = np.array([x.devices for x in data if x.timestamp >= threshold])
     std = np.std(past_counts)
-
     ind = np.argmin([np.abs(last_count - x) for x in [np.max(past_counts), np.median(past_counts), np.min(past_counts)]])
+    
     if ind == 0:
         state = 'high'
     elif ind == 1:
@@ -74,12 +77,15 @@ def get_stats():
     else: # ind == 1
         state = 'low'
 
+    threshold = current_time - timedelta(hours = 1)
+    past_counts = np.array([x.devices for x in data if x.timestamp >= threshold])
+
     # Predict upcoming trend
     train = list(np.copy(past_counts))
 
     try:
         predictions = []
-        for i in range(3):
+        for i in range(1):
             model = ThetaModel(np.array(train), period=10)
             model_fit = model.fit(disp=0)
             output = model_fit.forecast()
