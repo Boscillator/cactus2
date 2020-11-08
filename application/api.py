@@ -6,6 +6,8 @@ import time
 import numpy as np
 from statsmodels.tsa.arima_model import ARIMA
 
+import warnings
+warnings.filterwarnings("ignore")
 
 @app.route('/api/test')
 def test_endpoint():
@@ -17,8 +19,7 @@ def get_counts(campus_id):
     campus = Campus.query.filter_by(id=campus_id).first_or_404()
     try:
         timestamp = int(request.args['t'])
-        time = datetime.datetime.fromtimestamp(timestamp)
-        print(time)
+        time = datetime.fromtimestamp(timestamp)
     except ValueError:
         abort(400)
         return
@@ -47,10 +48,10 @@ def add_count():
 
 @app.route('/api/external_query', methods=['POST'])
 def get_stats():
-    if not request.args:
+    if not request.json:
         abort(400)
 
-    router_name = request.args.get('loc')
+    router_name = request.json['loc']
 
     router_id = Router.query.filter_by(name=router_name).first().id
     data = Count.query.filter_by(router_id=router_id).all()
@@ -78,7 +79,7 @@ def get_stats():
         train = list(np.copy(past_counts))
     
         predictions = []
-        for i in range(3):
+        for i in range(1):
             model = ARIMA(train, order=(4,1,1))
             model_fit = model.fit(disp=0)
             output = model_fit.forecast()

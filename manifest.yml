@@ -2,5 +2,5 @@
 applications:
  - name: cactus2
    random-route: true
-   memory: 256M
+   memory: 384M
    command: python app.py

@@ -14,7 +14,11 @@ app.config['SECRET_KEY'] = 'insecure key'
 app.config['TITLE'] = 'CACTUS 2'
 
 # initialize database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+POSTGRES_USER = 'admin'
+POSTGRES_PW = 'fredbuchanan'
+POSTGRES_DB = 'cactus2'
+DB_URL = 'postgres://{user}:{pw}@757c31c1-3144-4eee-905b-633638896b16.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud:32282/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PW, db=POSTGRES_DB)
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
