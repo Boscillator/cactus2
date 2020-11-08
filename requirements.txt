@@ -4,3 +4,5 @@ Flask-Admin==1.5.7
 GeoAlchemy2==0.8.4
 psycopg2==2.8.6
 shapely==1.7.1
+numpy==1.19.4
+statsmodels==0.12.1
